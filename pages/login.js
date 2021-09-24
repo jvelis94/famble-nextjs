@@ -1,11 +1,15 @@
 import styles from "../styles/Login.module.css"
 import GoogleAuth from "../components/GoogleAuth"
-import { emailReducer, passwordReducer, usernameReducer } from "../helpers/auth-util"
+import { login } from "../helpers/auth-util"
 import { useReducer, useState, useEffect } from "react"
+import { useCookies } from 'react-cookie';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [cookies, setCookie, removeCookie] = useCookies([]);
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value)
@@ -17,19 +21,35 @@ const Login = () => {
 
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        if (handleFormValidation) {
-            console.log('form is valid')
-        } 
+        if (handleFormValidation()) {
+            const data = { user: { email: email, password: password } }
+            const login_response = await login(data)
+            if (login_response.status === 200) {
+                setCookie("token", login_response.headers.authorization, { 
+                    path: "/",
+                    maxAge: 3600, // Expires after 1hr
+                    sameSite: true 
+                })
+            }   
+        }
     };
 
     const handleFormValidation = () => {
         return email.includes("@") && password.trim().length >= 6
     }
 
+    const successAlert =  (
+        <Alert severity="success">
+            <AlertTitle>Successfully Signed up!</AlertTitle>
+            Please login below
+        </Alert>
+    )
+
     return (
         <div>
+            {cookies.sign_up_result && successAlert}
             <GoogleAuth />
             <form onSubmit={handleSubmit}>
                 <div className={styles.formGroup}>

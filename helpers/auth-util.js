@@ -1,28 +1,13 @@
-export const usernameReducer = (state, action) => {
-    if (action.type === 'USER_INPUT') {
-        return { value: action.val, isValid: action.val.trim().length > 1 };
-    }
-    else {
-        return { value: '', isValid: false };
-    }
+import axios from "axios";
+
+export async function register(data) {
+    const response = await axios.post(`${process.env.API_URL}/api/signup`, data)
+    return response
 }
 
-export const emailReducer = (state, action) => {
-    if (action.type === 'USER_INPUT') {
-        return { value: action.val, isValid: action.val.includes('@') };
-    }
-    else {
-        return { value: '', isValid: false };
-    }
-}
-
-export const passwordReducer = (state, action) => {
-    if (action.type === 'USER_INPUT') {
-        return { value: action.val, isValid: action.val.trim().length >= 6 };
-    }
-    else {
-        return { value: '', isValid: false };
-    }
+export async function login(data) {
+    const response = await axios.post(`${process.env.API_URL}/api/login`, data)
+    return response   
 }
 
 // export async function getAllEvents() {

@@ -1,12 +1,19 @@
 import styles from "../styles/Login.module.css"
 import GoogleAuth from "../components/GoogleAuth"
-import { emailReducer, passwordReducer, usernameReducer } from "../helpers/auth-util"
+import { emailReducer, passwordReducer, usernameReducer, register } from "../helpers/auth-util"
 import { useReducer, useState, useEffect } from "react"
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import { useRouter } from 'next/router'
+import { useCookies } from 'react-cookie';
+
 
 const Register = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const router = useRouter()
+    const [cookies, setCookie, removeCookie] = useCookies([]);
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value)
@@ -20,10 +27,19 @@ const Register = () => {
         setPassword(event.target.value)
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (handleFormValidation()) {
-            console.log('form is valid')
+            const data = { user: { email: email, password: password } }
+            const register_response = await register(data)
+            if (register_response.status === 204) {
+                setCookie("sign_up_result", "successful", { 
+                    path: "/",
+                    maxAge: 3600, // Expires after 1hr
+                    sameSite: true 
+                })
+                router.push('/login')
+            }
         }
     };
 
@@ -33,6 +49,7 @@ const Register = () => {
 
     return (
         <div>
+            {successAlert}
             <GoogleAuth />
             <form onSubmit={handleSubmit} >
                 <div className={styles.formGroup}>
