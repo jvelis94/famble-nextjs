@@ -42,8 +42,8 @@
     text-align: center;
     overflow: hidden;
     white-space: nowrap; 
-    margin-top: 48px;
-    margin-bottom: 32px;
+    margin-top: -48px;
+    margin-bottom: 16px;
 }
 
 .authSeparator > span {
