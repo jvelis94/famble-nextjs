@@ -30,7 +30,7 @@ const Register = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (handleFormValidation()) {
-            const data = { user: { email: email, password: password } }
+            const data = { user: { username: username, email: email, password: password } }
             const register_response = await register(data)
             if (register_response.status === 204) {
                 setCookie("sign_up_result", "successful", { 
@@ -49,7 +49,6 @@ const Register = () => {
 
     return (
         <div>
-            {successAlert}
             <GoogleAuth />
             <form onSubmit={handleSubmit} >
                 <div className={styles.formGroup}>
