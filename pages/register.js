@@ -14,6 +14,7 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const router = useRouter()
     const [cookies, setCookie, removeCookie] = useCookies([]);
+    const cookie_access = { path: "/", maxAge: 3600, sameSite: true }
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value)
@@ -33,11 +34,7 @@ const Register = () => {
             const data = { user: { username: username, email: email, password: password } }
             const register_response = await register(data)
             if (register_response.status === 204) {
-                setCookie("sign_up_result", "successful", { 
-                    path: "/",
-                    maxAge: 3600, // Expires after 1hr
-                    sameSite: true 
-                })
+                handleSetCookie("sign_up_result", successful)
                 router.push('/login')
             }
         }
@@ -45,6 +42,10 @@ const Register = () => {
 
     const handleFormValidation = () => {
         return email.includes("@") && password.trim().length >= 6 && username.trim().length > 1        
+    }
+
+    const handleSetCookie = (name, value) => {
+        setCookie(name, value, cookie_access)
     }
 
     return (

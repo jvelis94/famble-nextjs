@@ -10,15 +10,14 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [cookies, setCookie, removeCookie] = useCookies([]);
+    const cookie_access = { path: "/", maxAge: 3600, sameSite: true }
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value)
-        
     }
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value)
-
     }
 
     const handleSubmit = async (event) => {
@@ -27,14 +26,14 @@ const Login = () => {
             const data = { user: { email: email, password: password } }
             const login_response = await login(data)
             if (login_response.status === 200) {
-                setCookie("token", login_response.headers.authorization, { 
-                    path: "/",
-                    maxAge: 3600, // Expires after 1hr
-                    sameSite: true 
-                })
+                handleSetCookie("token", login_response.headers.authorization)
             }   
         }
     };
+
+    const handleSetCookie = (name, value) => {
+        setCookie(name, value, cookie_access)
+    }
 
     const handleFormValidation = () => {
         return email.includes("@") && password.trim().length >= 6
