@@ -76,6 +76,7 @@ const Login = () => {
             <h4 style={{textAlign: 'center', fontWeight: 400}}>
                 Not a member? <a style={{color: 'blue'}} href="/register">Register</a>
             </h4>
+            
         </div>
     )
 
