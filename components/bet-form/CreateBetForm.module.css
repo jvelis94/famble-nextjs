@@ -1,0 +1,46 @@
+.formLine {
+    margin-top: 8px;
+}
+
+.formGroup {
+    margin-top: 16px;
+}
+
+.formLine input, .formLine textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #c5c5c5;
+}
+
+.inlineFormLine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inlineFormLine input {
+    border-radius: 10px;
+    border: 1px solid #c5c5c5;
+}
+
+.inlineFormLine .formGroup {
+    width: 49%;
+}
+
+.formGroup input[type="submit"] {
+    padding: 10px;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #220337;
+    color: #ffffff;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.formTitle {
+    text-align: center;
+    margin-top: 24px;
+    margin-bottom: 36px;
+}
