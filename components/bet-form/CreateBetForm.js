@@ -1,17 +1,54 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from './CreateBetForm.module.css'
+import { createBet, getBettors } from '../../helpers/bet-util'
+import BettorDropdown from './BettorDropdown';
+import { useRouter } from 'next/router';
 
 const CreateBetForm = () => {
-    const betTitleRef = useRef()
-    const startDateRef = useRef()
-    const endDateRef = useRef()
-    const wagerAmountRef = useRef()
-    const categoryRef = useRef()
-    const participantRef = useRef()
-    const rulesRef = useRef()
+    const router = useRouter()
+    const betNameRef = useRef("")
+    const startDateRef = useRef("")
+    const endDateRef = useRef("")
+    const wagerAmountRef = useRef("")
+    const categoryRef = useRef("")
+    const betReceiverRef = useRef("")
+    const rulesRef = useRef("")
+    const [showSearchResults, setShowSearchResults] = useState(false)
+    const [betReceiverResults, setBetReceiverResults] = useState({})
+    const [selectedBetReceiver, setSelectedBetReceiver] = useState({id: 0, username: 'dummy'})
 
-    const handleFormSubmit = (event) => {
+    const betData = {
+        name: betNameRef.current.value,
+        start_date: startDateRef.current.value,
+        end_date: endDateRef.current.value,
+        wager_amount: wagerAmountRef.current.value,
+        category: categoryRef.current.value,
+        bet_maker_id: 2,
+        bet_receiver_id: selectedBetReceiver.id
+    }
+
+    const handleSelectedBetReceiver = (user) => {
+        setSelectedBetReceiver(user)
+        betReceiverRef.current.value = user.username
+    }
+
+    const handleFormSubmit = async (event) => {
         event.preventDefault()
+        const create_bet_response = await createBet(betData)
+        console.log(create_bet_response)
+        if (create_bet_response.status === 200) {
+            router.push('/bets')
+        }
+    }
+
+    const handleBettorSearch = async (event) => {
+        if (betReceiverRef.current.value.length > 2)  {
+            const get_bettors = await getBettors(betReceiverRef.current.value)
+            setBetReceiverResults(get_bettors.data)
+            setShowSearchResults(true)
+        } else { 
+            setShowSearchResults(false)
+        }
     }
 
     return (
@@ -20,10 +57,10 @@ const CreateBetForm = () => {
             <form onSubmit={handleFormSubmit}>
                 <div className={styles.formGroup}>
                     <div className={styles.formLine}>
-                        <label>Bet Title</label>
+                        <label>Bet Name</label>
                     </div>
                     <div className={styles.formLine}>
-                        <input type="text" minLength={1} name="bet title" ref={betTitleRef}/>
+                        <input type="text" minLength={1} name="bet title" ref={betNameRef}/>
                     </div>
                 </div>
                 <div className={styles.inlineFormLine} >
@@ -64,10 +101,15 @@ const CreateBetForm = () => {
                 </div>
                 <div className={styles.formGroup}>
                     <div className={styles.formLine}>
-                        <label>Participant</label>
+                        <label>Who are you challenging?</label>
                     </div>
                     <div className={styles.formLine}>
-                        <input type="text" ref={participantRef}/>
+                        <input type="text" ref={betReceiverRef} onChange={handleBettorSearch}/>
+                        {showSearchResults && <BettorDropdown 
+                            search_results={betReceiverResults} 
+                            handleSelectedBetReceiver={handleSelectedBetReceiver}    
+                            />
+                        }
                     </div>
                 </div>
                 <div className={styles.formGroup}>
