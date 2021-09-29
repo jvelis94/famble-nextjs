@@ -1,0 +1,19 @@
+.listContainer {
+    background-color: white;
+    box-shadow: 0 1px 10px rgb(0 0 0 / 0.1);
+    border-radius: 5px;
+}
+
+.listContainer ul {
+    padding: 0px;
+    margin: 0px;
+}
+
+.listContainer li {
+    list-style-type: none;
+    padding: 16px;
+}
+
+.listContainer li:hover {
+    background-color: azure;
+}
