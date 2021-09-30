@@ -1,13 +1,15 @@
 import '../styles/globals.css'
-import { AuthContextProvider } from '../store/auth-context';
+// import { AuthContextProvider } from '../store/auth-context';
+import { WebSocketContextProvider } from '../store/web-socket-context';
+
 
 function MyApp({ Component, pageProps }) {
 
   return (
-    <AuthContextProvider>
+    <WebSocketContextProvider>
       <h1 className='logoFont'>famble</h1>
       <Component {...pageProps} />
-    </AuthContextProvider>
+    </WebSocketContextProvider>
   )
 }
 
