@@ -5,6 +5,7 @@ import { useReducer, useState, useEffect } from "react"
 import { useCookies } from 'react-cookie';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import router from "next/router";
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -26,7 +27,9 @@ const Login = () => {
             const data = { user: { email: email, password: password } }
             const login_response = await login(data)
             if (login_response.status === 200) {
+                handleSetCookie("user_id", login_response.data.id)
                 handleSetCookie("token", login_response.headers.authorization)
+                router.push('/bets')
             }   
         }
     };
