@@ -68,7 +68,7 @@ const Login = () => {
                     <div className={`${styles.formLine} ${styles.passwordContainer}`}>
                         <label>Password</label>
                         <Link className={styles.forgotPassword} href="/forgot-password">
-                            <a>forgot password</a>
+                            forgot password
                         </Link>
                     </div>
                     <div className={styles.formLine}>
@@ -80,7 +80,7 @@ const Login = () => {
                 </div>
             </form>
             <h4 style={{textAlign: 'center', fontWeight: 400}}>
-                Not a member? <Link style={{color: 'blue'}} href="/register"> <a>Register</a></Link>
+                Not a member? <Link style={{color: 'blue'}} href="/register">Register</Link>
             </h4>
             
         </div>
