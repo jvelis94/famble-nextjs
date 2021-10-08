@@ -6,6 +6,8 @@ import { useCookies } from 'react-cookie';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import router from "next/router";
+import Link from 'next/link'
+
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -65,7 +67,9 @@ const Login = () => {
                 <div className={styles.formGroup}>
                     <div className={`${styles.formLine} ${styles.passwordContainer}`}>
                         <label>Password</label>
-                        <a className={styles.forgotPassword} href="/forgot-password">forgot password</a>
+                        <Link className={styles.forgotPassword} href="/forgot-password">
+                            forgot password
+                        </Link>
                     </div>
                     <div className={styles.formLine}>
                         <input type="password" minLength={6} name="password" onChange={handlePasswordChange} />
@@ -76,7 +80,7 @@ const Login = () => {
                 </div>
             </form>
             <h4 style={{textAlign: 'center', fontWeight: 400}}>
-                Not a member? <a style={{color: 'blue'}} href="/register">Register</a>
+                Not a member? <Link style={{color: 'blue'}} href="/register">Register</Link>
             </h4>
             
         </div>
