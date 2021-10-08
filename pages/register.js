@@ -6,6 +6,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie';
+import Link from 'next/link'
 
 
 const Register = () => {
@@ -81,7 +82,7 @@ const Register = () => {
                 </div>
             </form>
             <h4 style={{textAlign: 'center', fontWeight: 400}}>
-                Already a member? <a style={{color: 'blue'}} href='/login'>Login</a>
+                Already a member? <Link style={{color: 'blue'}} href='/login'><a>Login</a></Link>
             </h4>
         </div>
     )
