@@ -11,7 +11,7 @@ export const WebSocketContextProvider = (props) => {
     const [cookies, setCookie, removeCookie] = useCookies([]);
 
     useEffect(() => {
-        ws.current = new WebSocket(`ws://localhost:3000/cable?user_id=${cookies.user_id}`);
+        ws.current = new WebSocket(`ws://${process.env.WEBSOCKET_URL}/cable?user_id=${cookies.user_id}`);
         ws.current.onopen = () => {
             console.log("ws opened");
             ws.current.send(JSON.stringify({"command": "subscribe","identifier":"{\"channel\":\"NotificationsChannel" + "\"}"}))
